@@ -1,0 +1,18 @@
+<nav>
+    <div class="btn-group" ngbDropdown>
+        <button class="btn btn-outline-primary" routerLinkActive="btn-outline-warning" routerLink="/todos">{{menuItems.tasks}}</button>
+        <button class="btn btn-outline-primary" routerLinkActive="btn-outline-warning" routerLink="/posts">{{menuItems.ideas}}</button>
+        <button class="btn btn-outline-primary" routerLinkActive="btn-outline-warning" routerLink="/name">Exemple Firebase</button>
+        <button class="btn btn-outline-primary" ngbDropdownToggle *ngIf="connected">
+            {{menuItems.account}}
+        </button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+            <h6 class="dropdown-header">{{user?.name}}</h6>
+            <button class="dropdown-item" [routerLink]="['/my-todos',user?.id]">{{menuItems.myTasks}}</button>
+            <button class="dropdown-item" [routerLink]="['/my-posts',user?.id]">{{menuItems.myIdeas}}</button>
+        </div>
+        <form class="form-inline" *ngIf="connected">
+            <input class="form-control" [(ngModel)]="user.name" name="nomUser">
+        </form>
+    </div>
+</nav>

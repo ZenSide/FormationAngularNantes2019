@@ -1,0 +1,52 @@
+<h2 *ngIf="!userId">Liste des tâches</h2>
+<h2 *ngIf="userId">Mes tâches</h2>
+
+<div class="spinner-border" role="status" *ngIf="!todoList">
+    <span class="sr-only">Loading...</span>
+  </div>
+
+<table class="table table-hover" (click)="deselect($event)" *ngIf="todoList">
+  <thead>
+    <tr>
+      <th>{{headers[0] | uppercase}}</th>
+      <th>{{headers[1] | uppercase}}</th>
+      <th>{{ngTaskLeft()}}/{{todoList.length}}</th>
+    </tr>
+      <tr>
+      <th colspan="3">
+        <form #f="ngForm" (ngSubmit)="addTodo(f)">
+          <input #title="ngModel"
+            required [(ngModel)]="newTodo.title" class="form-control" placeholder="Nouvelle tâche" name="title">
+          <span class="error" *ngIf="title.errors && title.errors['exists']">Le titre existe déja</span>
+          <span class="error" *ngIf="title.errors && title.errors['required']">Veuillez saisir un titre</span>
+          <span class="error" *ngIf="title.invalid">Erreur sur le titre</span>
+          <button [disabled]="f.invalid" class="btn btn-outline-success">Ajouter</button>
+        </form>
+      </th> 
+      </tr>
+  </thead>
+  <tbody>
+  <tr style="display:table-row" 
+    (click)="rowClicked(todo, $event)"
+    *ngFor="let todo of todoList" [ngClass]="{'table-active':isSelected(todo)}">
+    <td (click)="select(todo)">
+        <span *ngIf="!isSelected(todo)">{{todo.title}}</span>
+        <input 
+          [disabled]="todo.completed"
+          [(ngModel)]="todo.title" 
+          class="form-control" 
+          *ngIf="isSelected(todo)">
+      </td>
+    <td (click)="select(todo)">
+      <span *ngIf="!isSelected(todo)">{{todo.user?.name}}</span>
+      <select [compareWith]="compareUsers" [disabled]="!connected" [(ngModel)]="todo.user" *ngIf="isSelected(todo)">
+        <option [ngValue]="null"></option>
+        <option [ngValue]="user" *ngFor="let user of users">{{user.name}}</option>
+      </select>
+    </td>
+    <td [ngStyle]="{color:todo.completed?'green':'lightgray'}" (click)="complete(todo)">
+      <i class="far fa-check-circle"></i>
+    </td>
+  </tr>
+  </tbody>
+</table>

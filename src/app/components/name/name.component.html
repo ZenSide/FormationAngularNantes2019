@@ -1,0 +1,7 @@
+<h1>Voici les noms</h1>
+<input [(ngModel)]="name">
+<button (click)="add()">ADD</button>
+<hr>
+<ul>
+    <li *ngFor="let n of names">{{n.firstname}}</li>
+</ul>

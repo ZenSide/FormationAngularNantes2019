@@ -1,0 +1,8 @@
+<a routerLink="/posts">Revenir à la liste</a>
+
+<div class="list-group">
+    <div class="list-group-item" *ngFor="let comment of comments">
+        <u>{{comment.name}} a dit :</u><br>
+        {{comment.body}}
+    </div>
+</div>>
